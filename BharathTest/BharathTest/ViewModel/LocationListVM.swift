@@ -111,6 +111,22 @@ class LocationListVM {
         }
     }
     
+    func deleteEntireLocationTable() -> Bool {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        _ = locations?.map({managedContext.delete($0)})
+        do {
+            
+             try managedContext.save()
+            locations?.removeAll()
+            return true
+        } catch {
+            
+            return false
+        }
+    }
+    
     func fetchDetailsForTodayAndForecast(lat: Float, longi: Float, completionHandler: @escaping((TodayWeatherModel?, FutureWeatherModel?) -> ())) {
         
         var todayWeatherModel: TodayWeatherModel?
@@ -141,7 +157,7 @@ class LocationListVM {
     private func fetchDetailsForToday(lat: Float, longi: Float, completionHandler: @escaping((TodayWeatherModel?) -> Void)) {
         
         
-        guard let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(longi)&appid=\(LocationListVM.apiKeyForWeather)") else {
+        guard let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(longi)&appid=\(LocationListVM.apiKeyForWeather)&units=\(UserDefaultsConfig.unitsValue)") else {
             
             completionHandler(nil)
             return
@@ -160,7 +176,7 @@ class LocationListVM {
     
     private func fetchDetailsForForecast(lat: Float, longi: Float, completionHandler: @escaping((FutureWeatherModel?) -> Void)) {
         
-        guard let url = URL(string: "http://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(longi)&appid=\(LocationListVM.apiKeyForWeather)&units=metric") else {
+        guard let url = URL(string: "http://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(longi)&appid=\(LocationListVM.apiKeyForWeather)&units=\(UserDefaultsConfig.unitsValue)") else {
             
             completionHandler(nil)
             return

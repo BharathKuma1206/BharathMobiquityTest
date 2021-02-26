@@ -8,24 +8,31 @@
 import UIKit
 
 class LocationDetails: UIViewController {
+    
+    var todayWeatherModel: TodayWeatherModel?
+
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
+    @IBOutlet weak var rainChances: UILabel!
+    @IBOutlet weak var windInformation: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        updateUI()
     }
     
+    func updateUI() {
+        
+        guard let todayWeatherModel = todayWeatherModel else { return }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        temperatureLabel.text = (todayWeatherModel.main?.temp?.toString() ?? "") + " " +  (WeatherUnits(rawValue: UserDefaultsConfig.unitsValue)?.temperatureUnits ?? "")
+        humidityLabel.text = todayWeatherModel.main?.humidity?.toString() ?? ""
+        rainChances.text = "\(todayWeatherModel.weather?.first?.main?.lowercased() == "rain" ? "Yes" : "No")"
+        windInformation.text = (todayWeatherModel.wind?.speed?.toString() ?? "") + " " + (WeatherUnits(rawValue: UserDefaultsConfig.unitsValue)?.windSpeedUnits ?? "")
     }
-    */
-
 }
 
 enum WeatherUnits: String {
@@ -34,7 +41,7 @@ enum WeatherUnits: String {
     case metric = "Metric"
     case imperial = "Imperial"
     
-    var temperatureUnits: String? {
+    var temperatureUnits: String {
         
         switch self {
 
@@ -77,6 +84,36 @@ enum WindUnits: String {
             return "Celsius"
         case .imperial:
             return "Fahrenheit"
+        }
+    }
+}
+
+extension Double {
+    
+    func toString() -> String {
+        
+        if self == 0 {
+            
+            return ""
+            
+        } else {
+            
+            return "\(self)"
+        }
+    }
+}
+
+extension Int {
+    
+    func toString() -> String {
+        
+        if self == 0 {
+            
+            return ""
+            
+        } else {
+            
+            return "\(self)"
         }
     }
 }

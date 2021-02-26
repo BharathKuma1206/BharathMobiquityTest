@@ -10,6 +10,8 @@
 		6B20B30725E8C46E0095CAB9 /* AddLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20B30625E8C46E0095CAB9 /* AddLocationVC.swift */; };
 		6B20B30B25E8D4D50095CAB9 /* LocationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20B30A25E8D4D50095CAB9 /* LocationDetails.swift */; };
 		6B74C5E025E91070001AE86D /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B74C5DF25E91070001AE86D /* SettingsVC.swift */; };
+		6B74C5E325E910F1001AE86D /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B74C5E225E910F1001AE86D /* UserDefaultsWrapper.swift */; };
+		6B74C5E625E9111B001AE86D /* UserDefaultsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B74C5E525E9111B001AE86D /* UserDefaultsConfig.swift */; };
 		6BDF99A525E7A98000721A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDF99A425E7A98000721A0C /* AppDelegate.swift */; };
 		6BDF99A925E7A98000721A0C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDF99A825E7A98000721A0C /* ViewController.swift */; };
 		6BDF99AC25E7A98000721A0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BDF99AA25E7A98000721A0C /* Main.storyboard */; };
@@ -26,6 +28,8 @@
 		6B20B30625E8C46E0095CAB9 /* AddLocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationVC.swift; sourceTree = "<group>"; };
 		6B20B30A25E8D4D50095CAB9 /* LocationDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetails.swift; sourceTree = "<group>"; };
 		6B74C5DF25E91070001AE86D /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		6B74C5E225E910F1001AE86D /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
+		6B74C5E525E9111B001AE86D /* UserDefaultsConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsConfig.swift; sourceTree = "<group>"; };
 		6BDF99A125E7A98000721A0C /* BharathTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BharathTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BDF99A425E7A98000721A0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BDF99A825E7A98000721A0C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -107,6 +111,8 @@
 		6BDF99C825E7C6EB00721A0C /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				6B74C5E525E9111B001AE86D /* UserDefaultsConfig.swift */,
+				6B74C5E225E910F1001AE86D /* UserDefaultsWrapper.swift */,
 				6BDF99C925E7C70800721A0C /* APIClient.swift */,
 			);
 			path = Manager;
@@ -186,9 +192,11 @@
 				6B20B30725E8C46E0095CAB9 /* AddLocationVC.swift in Sources */,
 				6BDF99CA25E7C70800721A0C /* APIClient.swift in Sources */,
 				6BDF99C225E7AECB00721A0C /* TodayWeatherModel.swift in Sources */,
+				6B74C5E325E910F1001AE86D /* UserDefaultsWrapper.swift in Sources */,
 				6BDF99A525E7A98000721A0C /* AppDelegate.swift in Sources */,
 				6BDF99AF25E7A98000721A0C /* BharathTest.xcdatamodeld in Sources */,
 				6B20B30B25E8D4D50095CAB9 /* LocationDetails.swift in Sources */,
+				6B74C5E625E9111B001AE86D /* UserDefaultsConfig.swift in Sources */,
 				6BDF99C125E7AECB00721A0C /* FutureWeatherModel.swift in Sources */,
 				6BDF99C525E7B24B00721A0C /* LocationListVM.swift in Sources */,
 				6B74C5E025E91070001AE86D /* SettingsVC.swift in Sources */,

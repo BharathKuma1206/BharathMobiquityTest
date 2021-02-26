@@ -110,10 +110,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         guard let cellData = viewModel.tableViewData?[indexPath.row] else { return }
         
-        viewModel.fetchDetailsForTodayAndForecast(lat: Float(cellData.latitudeValue), longi: Float(cellData.longitudeValue)) { (today, forecast) in
+        viewModel.fetchDetailsForTodayAndForecast(lat: Float(cellData.latitudeValue), longi: Float(cellData.longitudeValue)) { [weak self] (today, forecast) in
             
-            
-            
+            if today != nil {
+                
+                self?.performSegue(withIdentifier: "HomeToDetails", sender: today)
+
+            } else {
+                
+                self?.showErrorAlert()
+            }
         }
     }
 }
@@ -139,6 +145,29 @@ extension ViewController {
                     self.showErrorAlert()
                 }
             }
+        } else if segue.identifier == "HomeToSettings" {
+            
+            guard let destination = segue.destination as? SettingsVC else {
+                
+                return
+            }
+            
+            destination.resetButtonClicked = { [weak self] in
+                
+               let isSuccess =  self?.viewModel.deleteEntireLocationTable() ?? false
+                
+                if !isSuccess {
+                    self?.showErrorAlert()
+                }
+            }
+        } else if segue.identifier == "HomeToDetails" {
+            
+            guard let destination = segue.destination as? LocationDetails else {
+                
+                return
+            }
+            
+            destination.todayWeatherModel = sender as? TodayWeatherModel
         }
     }
 }

@@ -9,35 +9,35 @@ import Foundation
 
 // MARK: - TodayWeatherModel
 struct TodayWeatherModel: Codable {
-    let coord: TodayCoord
-    let weather: [TodayWeather]
-    let base: String
-    let main: Main
-    let visibility: Int
-    let wind: TodayWind
-    let rain: TodayRain
-    let clouds: TodayClouds
-    let dt: Int
-    let sys: TodaySys
-    let timezone, id: Int
-    let name: String
-    let cod: Int
+    let coord: TodayCoord?
+    let weather: [TodayWeather]?
+    let base: String?
+    let main: TodayMain?
+    let visibility: Int?
+    let wind: TodayWind?
+    let rain: TodayRain?
+    let clouds: TodayClouds?
+    let dt: Int?
+    let sys: TodaySys?
+    let timezone, id: Int?
+    let name: String?
+    let cod: Int?
 }
 
 // MARK: - Clouds
 struct TodayClouds: Codable {
-    let all: Int
+    let all: Int?
 }
 
 // MARK: - Coord
 struct TodayCoord: Codable {
-    let lon, lat: Int
+    let lon, lat: Double?
 }
 
 // MARK: - Main
-struct Main: Codable {
-    let temp, feelsLike, tempMin, tempMax: Double
-    let pressure, humidity, seaLevel, grndLevel: Int
+struct TodayMain: Codable {
+    let temp, feelsLike, tempMin, tempMax: Double?
+    let pressure, humidity, seaLevel, grndLevel: Int?
 
     enum CodingKeys: String, CodingKey {
         case temp
@@ -52,7 +52,7 @@ struct Main: Codable {
 
 // MARK: - Rain
 struct TodayRain: Codable {
-    let the1H: Double
+    let the1H: Double?
 
     enum CodingKeys: String, CodingKey {
         case the1H = "1h"
@@ -61,13 +61,13 @@ struct TodayRain: Codable {
 
 // MARK: - Sys
 struct TodaySys: Codable {
-    let sunrise, sunset: Int
+    let sunrise, sunset: Int?
 }
 
 // MARK: - Weather
 struct TodayWeather: Codable {
-    let id: Int
-    let main, weatherDescription, icon: String
+    let id: Int?
+    let main, weatherDescription, icon: String?
 
     enum CodingKeys: String, CodingKey {
         case id, main
@@ -78,6 +78,6 @@ struct TodayWeather: Codable {
 
 // MARK: - Wind
 struct TodayWind: Codable {
-    let speed: Double
-    let deg: Int
+    let speed: Double?
+    let deg: Int?
 }
