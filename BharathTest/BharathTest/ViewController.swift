@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ViewController: UIViewController {
     
@@ -15,7 +16,7 @@ class ViewController: UIViewController {
     var tableViewData: [Location]?
     
     let viewModel = LocationListVM()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -33,7 +34,7 @@ class ViewController: UIViewController {
                     
                     self?.noLocation.isHidden = false
                     self?.tableVW.isHidden = true
-
+                    
                 } else {
                     
                     self?.noLocation.isHidden = true
@@ -44,14 +45,11 @@ class ViewController: UIViewController {
         }
         
         viewModel.getDataFromLocationEntity()
-
         
-        viewModel.saveDataToLocationEntity(name: "Ram", latitude: 100, longitude: 100)
-        
-//        viewModel.fetchDetailsForTodayAndForecast(lat: 0, longi: 0) { (today, forecast) in
-//
-//            print(today, forecast)
-//        }
+        //        viewModel.fetchDetailsForTodayAndForecast(lat: 0, longi: 0) { (today, forecast) in
+        //
+        //            print(today, forecast)
+        //        }
     }
 }
 
@@ -72,6 +70,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlainCell", for: indexPath)
         cell.textLabel?.text = cellData.name
         cell.textLabel?.font = UIFont.systemFont(ofSize: 25, weight: .semibold)
+        cell.selectionStyle = .none
         return cell
     }
     
@@ -79,5 +78,57 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         return UITableView.automaticDimension
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if (editingStyle == .delete) {
+
+            guard let cellData = tableViewData?[indexPath.row] else { return }
+            let isSucess = viewModel.deleteDataFromLocationEntity(location: cellData, indexRow: indexPath.row)
+            if !isSucess {
+                
+                self.showErrorAlert()
+            }
+        }
+    }
 }
 
+extension ViewController {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "HomeToAdd" {
+            
+            guard let destination = (segue.destination as? UINavigationController)?.topViewController as? AddLocationVC else {
+                
+                return
+            }
+            
+            destination.addButtonClosure = { [weak self] cordinate, name in
+                
+                guard let self = self else {return}
+                let isSucess = self.viewModel.saveDataToLocationEntity(name: name, latitude: Float(cordinate.latitude), longitude: Float(cordinate.longitude))
+                
+                if !isSucess {
+                    
+                    self.showErrorAlert()
+                }
+            }
+        }
+    }
+}
+
+
+extension UIViewController {
+    
+    func showErrorAlert() {
+        
+        let alertController = UIAlertController(title: "Alert", message: "Some thing went wrong", preferredStyle: .alert)
+        present(alertController, animated: true, completion: nil)
+    }
+}

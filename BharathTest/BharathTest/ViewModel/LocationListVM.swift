@@ -80,6 +80,22 @@ class LocationListVM {
         }
     }
     
+    func deleteDataFromLocationEntity(location: Location, indexRow: Int) -> Bool {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        managedContext.delete(location)
+        do {
+            
+             try managedContext.save()
+            locations?.remove(at: indexRow)
+            return true
+        } catch {
+            
+            return false
+        }
+    }
+    
     func fetchDetailsForTodayAndForecast(lat: Float, longi: Float, completionHandler: @escaping((TodayWeatherModel?, FutureWeatherModel?) -> ())) {
         
         var todayWeatherModel: TodayWeatherModel?

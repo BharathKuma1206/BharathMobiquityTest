@@ -38,6 +38,9 @@
                                     <constraint firstAttribute="width" constant="50" id="Jf6-xN-fzb"/>
                                 </constraints>
                                 <state key="normal" image="add"/>
+                                <connections>
+                                    <segue destination="Qh3-Ox-cwB" kind="presentation" identifier="HomeToAdd" modalPresentationStyle="fullScreen" id="DbI-5D-Du0"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -63,6 +66,50 @@
             </objects>
             <point key="canvasLocation" x="905.79710144927549" y="65.625"/>
         </scene>
+        <!--Add Location-->
+        <scene sceneID="nKw-TM-LWF">
+            <objects>
+                <viewController id="yur-6O-Ho5" customClass="AddLocationVC" customModule="BharathTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Dc2-dT-b0q">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="XNQ-1y-x7h">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <connections>
+                                    <outlet property="delegate" destination="yur-6O-Ho5" id="qvK-df-Z5Q"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="MyK-uC-85M"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="MyK-uC-85M" firstAttribute="trailing" secondItem="XNQ-1y-x7h" secondAttribute="trailing" id="lHK-Xa-bjG"/>
+                            <constraint firstItem="XNQ-1y-x7h" firstAttribute="leading" secondItem="MyK-uC-85M" secondAttribute="leading" id="oEa-MF-w4a"/>
+                            <constraint firstItem="XNQ-1y-x7h" firstAttribute="top" secondItem="MyK-uC-85M" secondAttribute="top" id="pMh-eT-dCA"/>
+                            <constraint firstAttribute="bottom" secondItem="XNQ-1y-x7h" secondAttribute="bottom" id="tCH-me-Gpb"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add Location" id="lNd-7N-TKg">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="6xs-1R-UAM">
+                            <connections>
+                                <action selector="cancelButtonClicked:" destination="yur-6O-Ho5" id="6k2-FS-Pp2"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Add" id="0dM-pC-uy4">
+                            <connections>
+                                <action selector="addButtonClicked:" destination="yur-6O-Ho5" id="Ec4-TE-Ywe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapVW" destination="XNQ-1y-x7h" id="uNV-G3-Aeg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="95a-4d-c91" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2624.6376811594205" y="65.625"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Hur-wA-aoy">
             <objects>
@@ -80,6 +127,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B7l-0s-7O2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-4.3478260869565224" y="65.625"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="M7i-pW-Ja6">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Qh3-Ox-cwB" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="8Vy-aN-ps1">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="yur-6O-Ho5" kind="relationship" relationship="rootViewController" id="a1B-Ra-nLl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A6b-hD-b4t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1713.0434782608697" y="65.625"/>
         </scene>
     </scenes>
     <resources>
