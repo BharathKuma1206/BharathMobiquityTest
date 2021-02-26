@@ -14,7 +14,22 @@ class LocationListVM {
     static let apiKeyForWeather = "fae7190d7e6433ec3a45285ffcf55c86"
     
     lazy var apiClient = APIClient()
+        
+    var isSearching = false
     
+    var tableViewData: [Location]? {
+        
+        return isSearching ? searchLocations : locations
+    }
+    
+    var searchLocations: [Location]? {
+        
+        didSet {
+            
+            bindLocationViewModelToController()
+        }
+    }
+
     private(set) var locations: [Location]? {
         
         didSet {

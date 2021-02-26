@@ -12,8 +12,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tableVW: UITableView!
     @IBOutlet weak var noLocation: UILabel!
-    
-    var tableViewData: [Location]?
+    let searchController = UISearchController(searchResultsController: nil)
     
     let viewModel = LocationListVM()
     
@@ -24,32 +23,40 @@ class ViewController: UIViewController {
         tableVW.register(UITableViewCell.self, forCellReuseIdentifier: "PlainCell")
         tableVW.tableFooterView = UIView()
         
+        setupSearchController()
+        
         viewModel.bindLocationViewModelToController = { [weak self] in
-            
-            self?.tableViewData = self?.viewModel.locations
             
             DispatchQueue.main.async { [weak self] in
                 
-                if self?.tableViewData?.count == 0 {
+                guard let self = self else { return }
+                
+                if self.viewModel.tableViewData?.count ?? 0 == 0 {
                     
-                    self?.noLocation.isHidden = false
-                    self?.tableVW.isHidden = true
+                    self.noLocation.isHidden = false
+                    self.tableVW.isHidden = true
                     
                 } else {
                     
-                    self?.noLocation.isHidden = true
-                    self?.tableVW.isHidden = false
-                    self?.tableVW.reloadData()
+                    self.noLocation.isHidden = true
+                    self.tableVW.isHidden = false
+                    self.tableVW.reloadData()
                 }
             }
         }
         
         viewModel.getDataFromLocationEntity()
+    }
+    
+    func setupSearchController() {
         
-        //        viewModel.fetchDetailsForTodayAndForecast(lat: 0, longi: 0) { (today, forecast) in
-        //
-        //            print(today, forecast)
-        //        }
+        definesPresentationContext = true
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Search by Location name"
+        searchController.hidesNavigationBarDuringPresentation = false
+        
+        tableVW.tableHeaderView = searchController.searchBar
     }
 }
 
@@ -57,12 +64,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return tableViewData?.count ?? 0
+        return viewModel.tableViewData?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cellData = tableViewData?[indexPath.row] else {
+        guard let cellData = viewModel.tableViewData?[indexPath.row] else {
             
             return UITableViewCell()
         }
@@ -83,13 +90,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         return true
     }
-
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if (editingStyle == .delete) {
-
-            guard let cellData = tableViewData?[indexPath.row] else { return }
+            
+            guard let cellData = viewModel.tableViewData?[indexPath.row] else { return }
+            
             let isSucess = viewModel.deleteDataFromLocationEntity(location: cellData, indexRow: indexPath.row)
+            
             if !isSucess {
                 
                 self.showErrorAlert()
@@ -99,6 +108,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        guard let cellData = viewModel.tableViewData?[indexPath.row] else { return }
+        
+        viewModel.fetchDetailsForTodayAndForecast(lat: Float(cellData.latitudeValue), longi: Float(cellData.longitudeValue)) { (today, forecast) in
+            
+            
+            
+        }
     }
 }
 
@@ -112,7 +128,7 @@ extension ViewController {
                 
                 return
             }
-            destination.allLocations = tableViewData
+            destination.allLocations = viewModel.locations
             destination.addButtonClosure = { [weak self] cordinate, name in
                 
                 guard let self = self else {return}
@@ -123,6 +139,36 @@ extension ViewController {
                     self.showErrorAlert()
                 }
             }
+        }
+    }
+}
+
+extension ViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        if let term = searchController.searchBar.text {
+            
+            filterRowsForSearchedText(term)
+            
+        } else {
+            
+            viewModel.isSearching = false
+            viewModel.searchLocations = []
+        }
+    }
+    
+    func filterRowsForSearchedText(_ searchText: String) {
+        
+        if searchText != "" {
+            
+            viewModel.isSearching = true
+            viewModel.searchLocations = viewModel.locations?.filter({($0.name?.lowercased().contains(searchText.lowercased()) ?? false)})
+            
+        } else {
+            
+            viewModel.isSearching = false
+            viewModel.searchLocations = []
         }
     }
 }

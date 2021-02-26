@@ -27,3 +27,56 @@ class LocationDetails: UIViewController {
     */
 
 }
+
+enum WeatherUnits: String {
+    
+    case defaultString = "Default"
+    case metric = "Metric"
+    case imperial = "Imperial"
+    
+    var temperatureUnits: String? {
+        
+        switch self {
+
+        case .defaultString:
+            return "Kelvin"
+        case .metric:
+            return "Celsius"
+        case .imperial:
+            return "Fahrenheit"
+        }
+    }
+    
+    var windSpeedUnits: String {
+        
+        switch self {
+
+        case .defaultString:
+            return "meter/sec"
+        case .metric:
+            return "meter/sec"
+        case .imperial:
+            return "miles/hour"
+        }
+    }
+}
+
+enum WindUnits: String {
+    
+    case defaultString = "Default"
+    case metric = "Metric"
+    case imperial = "Imperial"
+    
+    var unitsName: String? {
+        
+        switch self {
+
+        case .defaultString:
+            return "Kelvin"
+        case .metric:
+            return "Celsius"
+        case .imperial:
+            return "Fahrenheit"
+        }
+    }
+}
