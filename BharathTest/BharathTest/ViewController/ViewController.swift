@@ -34,6 +34,7 @@ class ViewController: UIViewController {
                 if self.viewModel.tableViewData?.count ?? 0 == 0 {
                     
                     self.noLocation.isHidden = false
+                    self.noLocation.text = self.viewModel.isSearching ? "No Location(s) found" : "No Location(s) added"
                     self.tableVW.isHidden = true
                     
                 } else {
