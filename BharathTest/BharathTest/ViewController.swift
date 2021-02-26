@@ -96,6 +96,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
 }
 
 extension ViewController {
@@ -108,7 +112,7 @@ extension ViewController {
                 
                 return
             }
-            
+            destination.allLocations = tableViewData
             destination.addButtonClosure = { [weak self] cordinate, name in
                 
                 guard let self = self else {return}
@@ -126,9 +130,16 @@ extension ViewController {
 
 extension UIViewController {
     
+    func showAlert(message: String) {
+        
+        let alertController = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "Okay", style: .default, handler: nil)
+        alertController.addAction(okButton)
+        present(alertController, animated: true, completion: nil)
+    }
+    
     func showErrorAlert() {
         
-        let alertController = UIAlertController(title: "Alert", message: "Some thing went wrong", preferredStyle: .alert)
-        present(alertController, animated: true, completion: nil)
+        showAlert(message: "Some thing went wrong")
     }
 }

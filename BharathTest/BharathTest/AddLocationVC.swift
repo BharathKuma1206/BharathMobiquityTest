@@ -12,6 +12,8 @@ class AddLocationVC: UIViewController {
 
     @IBOutlet weak var mapVW: MKMapView!
     
+    var allLocations: [Location]?
+    
     var addButtonClosure: ((CLLocationCoordinate2D, String) -> ())?
     
     var cordinates = CLLocationCoordinate2D(latitude: 12.9716, longitude: 77.5946)
@@ -59,6 +61,12 @@ extension AddLocationVC {
     
     @IBAction func addButtonClicked(_ sender: Any) {
         
+        if allLocations?.filter({$0.latitudeValue ==  Float(cordinates.latitude) && Float(cordinates.longitude) == $0.longitudeValue }).first != nil {
+            
+            showAlert(message: "Location already added")
+            return
+        }
+        
         geocode(latitude: cordinates.latitude, longitude: cordinates.longitude) { [weak self] (places, error) in
             
             guard let self = self else { return }
@@ -69,7 +77,7 @@ extension AddLocationVC {
                 
             } else {
                 
-                
+                self.showErrorAlert()
             }
         }
     }
