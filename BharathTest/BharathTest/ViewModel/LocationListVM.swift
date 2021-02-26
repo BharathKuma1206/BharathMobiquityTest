@@ -13,7 +13,7 @@ class LocationListVM {
     
     static let apiKeyForWeather = "fae7190d7e6433ec3a45285ffcf55c86"
     
-    var apiClient = APIClient()
+    lazy var apiClient = APIClient()
     
     private(set) var locations: [Location]? {
         
@@ -24,10 +24,6 @@ class LocationListVM {
     }
     
     var bindLocationViewModelToController : (() -> ()) = {}
-    
-    init() {
-        getDataFromLocationEntity()
-    }
     
     func getDataFromLocationEntity() {
         
@@ -111,7 +107,7 @@ class LocationListVM {
         }
     }
     
-    func fetchDetailsForToday(lat: Float, longi: Float, completionHandler: @escaping((TodayWeatherModel?) -> Void)) {
+    private func fetchDetailsForToday(lat: Float, longi: Float, completionHandler: @escaping((TodayWeatherModel?) -> Void)) {
         
         
         guard let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(longi)&appid=\(LocationListVM.apiKeyForWeather)") else {
@@ -131,7 +127,7 @@ class LocationListVM {
         })
     }
     
-    func fetchDetailsForForecast(lat: Float, longi: Float, completionHandler: @escaping((FutureWeatherModel?) -> Void)) {
+    private func fetchDetailsForForecast(lat: Float, longi: Float, completionHandler: @escaping((FutureWeatherModel?) -> Void)) {
         
         guard let url = URL(string: "http://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(longi)&appid=\(LocationListVM.apiKeyForWeather)&units=metric") else {
             
