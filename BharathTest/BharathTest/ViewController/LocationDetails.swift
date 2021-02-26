@@ -74,6 +74,8 @@ enum WindUnits: String {
     case metric = "Metric"
     case imperial = "Imperial"
     
+    static let allTypes = [WindUnits.defaultString, .metric, .imperial]
+    
     var unitsName: String? {
         
         switch self {
